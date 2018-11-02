@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EnterAndExiteOnlineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="EnterAndExiteOnlineEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EnterExiteLogs" EntityType="EnterAndExiteOnlineModel.EnterExiteLog" />
+    <EntitySet Name="EnterExites" EntityType="EnterAndExiteOnlineModel.EnterExite" />
+    <EntitySet Name="Persons" EntityType="EnterAndExiteOnlineModel.Person" />
+    <AssociationSet Name="FK_EnterExiteLog_EnterExites" Association="EnterAndExiteOnlineModel.FK_EnterExiteLog_EnterExites">
+      <End Role="EnterExite" EntitySet="EnterExites" />
+      <End Role="EnterExiteLog" EntitySet="EnterExiteLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_1_Persons" Association="EnterAndExiteOnlineModel.FK_Table_1_Persons">
+      <End Role="Person" EntitySet="Persons" />
+      <End Role="EnterExite" EntitySet="EnterExites" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="EnterExiteLog">
+    <Key>
+      <PropertyRef Name="EnterExiteLogID" />
+    </Key>
+    <Property Name="EnterExiteLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EnterExiteID" Type="Int32" Nullable="false" />
+    <Property Name="EnterExiteType" Type="Boolean" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="EnterExite" Relationship="EnterAndExiteOnlineModel.FK_EnterExiteLog_EnterExites" FromRole="EnterExiteLog" ToRole="EnterExite" />
+  </EntityType>
+  <EntityType Name="EnterExite">
+    <Key>
+      <PropertyRef Name="EnterExiteID" />
+    </Key>
+    <Property Name="EnterExiteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Present" Type="Boolean" Nullable="false" />
+    <Property Name="EnterExiteType" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="EnterExiteLogs" Relationship="EnterAndExiteOnlineModel.FK_EnterExiteLog_EnterExites" FromRole="EnterExite" ToRole="EnterExiteLog" />
+    <NavigationProperty Name="Person" Relationship="EnterAndExiteOnlineModel.FK_Table_1_Persons" FromRole="EnterExite" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Family" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Job" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Adress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="EnterExites" Relationship="EnterAndExiteOnlineModel.FK_Table_1_Persons" FromRole="Person" ToRole="EnterExite" />
+  </EntityType>
+  <Association Name="FK_EnterExiteLog_EnterExites">
+    <End Type="EnterAndExiteOnlineModel.EnterExite" Role="EnterExite" Multiplicity="1" />
+    <End Type="EnterAndExiteOnlineModel.EnterExiteLog" Role="EnterExiteLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EnterExite">
+        <PropertyRef Name="EnterExiteID" />
+      </Principal>
+      <Dependent Role="EnterExiteLog">
+        <PropertyRef Name="EnterExiteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_1_Persons">
+    <End Type="EnterAndExiteOnlineModel.Person" Role="Person" Multiplicity="1" />
+    <End Type="EnterAndExiteOnlineModel.EnterExite" Role="EnterExite" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="EnterExite">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

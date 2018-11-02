@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EnterAndExiteOnlineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="EnterExiteLog">
+    <Key>
+      <PropertyRef Name="EnterExiteLogID" />
+    </Key>
+    <Property Name="EnterExiteLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EnterExiteID" Type="int" Nullable="false" />
+    <Property Name="EnterExiteType" Type="bit" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EnterExites">
+    <Key>
+      <PropertyRef Name="EnterExiteID" />
+    </Key>
+    <Property Name="EnterExiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Present" Type="bit" Nullable="false" />
+    <Property Name="EnterExiteType" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Persons">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Family" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Job" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_EnterExiteLog_EnterExites">
+    <End Role="EnterExites" Type="Self.EnterExites" Multiplicity="1" />
+    <End Role="EnterExiteLog" Type="Self.EnterExiteLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EnterExites">
+        <PropertyRef Name="EnterExiteID" />
+      </Principal>
+      <Dependent Role="EnterExiteLog">
+        <PropertyRef Name="EnterExiteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_1_Persons">
+    <End Role="Persons" Type="Self.Persons" Multiplicity="1" />
+    <End Role="EnterExites" Type="Self.EnterExites" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="EnterExites">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EnterAndExiteOnlineModelStoreContainer">
+    <EntitySet Name="EnterExiteLog" EntityType="Self.EnterExiteLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EnterExites" EntityType="Self.EnterExites" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_EnterExiteLog_EnterExites" Association="Self.FK_EnterExiteLog_EnterExites">
+      <End Role="EnterExites" EntitySet="EnterExites" />
+      <End Role="EnterExiteLog" EntitySet="EnterExiteLog" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_1_Persons" Association="Self.FK_Table_1_Persons">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="EnterExites" EntitySet="EnterExites" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
